@@ -764,7 +764,7 @@
             <div class="book-single">
                 <div class="book-flex">
                     <div class="book-image">
-                        <img src="assets/images/live1.png" alt="El-Roï - Le Dieu qui me voit" onerror="this.src='https://placehold.co/350x450?text=EL-ROI+-+LE+DIEU+QUI+ME+VOIT'">
+                        <img src="assets/images/livre_elroi.jpg" alt="El-Roï - Le Dieu qui me voit" onerror="this.src='https://placehold.co/350x450?text=EL-ROI+-+LE+DIEU+QUI+ME+VOIT'">
                     </div>
                     <div class="book-content">
                         <h2 class="book-title">EL-ROÏ</h2>
@@ -772,11 +772,11 @@
                         <div class="book-description">
                             <p><strong>« Elle appela l'Éternel qui lui parlait : Tu es le Dieu qui me voit. » — Genèse 16:13</strong></p>
                             <p>À travers l'histoire d'Agar, l'esclave égyptienne, ce livre vous guide du désert de Beer-Schéba jusqu'à la source du Dieu vivant qui voit. Découvrez comment El-Roï entend le cri de chaque âme brisée, ouvre les yeux sur le puits caché, et transforme le silence en prière exaucée.</p>
-                            <p>50 déclarations prophétiques puissantes, 7 clés de délivrance, et une révélation profonde du nom d'El-Roï pour toutes celles et ceux qui se sentent invisibles, rejetés ou abandonnés.</p>
+                            <p><strong>50 déclarations prophétiques puissantes</strong> — 7 clés de délivrance, et une révélation profonde du nom d'El-Roï pour toutes celles et ceux qui se sentent invisibles, rejetés ou abandonnés.</p>
                             <p><strong>À propos de l'auteur :</strong> Eugène GODONOU, prédicateur de la Parole et fondateur du Mouvement Déclaration Biblique Journalière, basé au Bénin. Passionné par l'étude approfondie des Écritures et par l'accompagnement des âmes souffrantes, il exerce un ministère ancré dans la compassion biblique, la prière intercessive et la proclamation prophétique.</p>
                         </div>
                         <div class="download-area">
-                            <a href="doc/Vaincre2.pdf" class="btn btn-outline download-btn" data-book="elroi" target="_blank"><i class="fas fa-download"></i> Télécharger le livre gratuit</a>
+                            <a href="doc/El_Roi_Dieu_qui_me_voit.pdf" class="btn btn-outline download-btn" id="downloadBtn" target="_blank"><i class="fas fa-download"></i> Télécharger le livre gratuit</a>
                             <div class="download-counter" id="counter-elroi">
                                 <i class="fas fa-cloud-download-alt"></i>
                                 <span id="count-elroi">0</span> téléchargements
@@ -888,6 +888,7 @@
                 }
             });
         }
+        
         document.querySelectorAll('.nav-link, .dropdown-link').forEach(link => {
             link.addEventListener('click', () => { 
                 if(window.innerWidth <= 768 && navMenu.classList.contains('active')) {
@@ -899,56 +900,87 @@
         });
         
         // ==============================================
-        // COMPTEUR GLOBAL avec API countapi.xyz
+        // COMPTEUR GLOBAL avec JSONBin.io (fiable et gratuit)
         // ==============================================
-        const NAMESPACE = 'dbj';
-        const BOOK_KEY = 'elroi_dieu_qui_voit';
         
-        // Récupérer et afficher le compteur depuis l'API
+        // Configuration JSONBin
+        const BIN_ID = '6788e5d9ad19ca34f8fc7cd1';  // Votre bin ID (à remplacer par le vôtre)
+        const API_KEY = '$2a$10$YOUR_API_KEY_HERE';  // IMPORTANT: Créez votre compte JSONBin.io
+        
+        // Pour une solution sans API key (lecture seule), utilisez ceci:
+        // https://api.jsonbin.io/v3/b/6788e5d9ad19ca34f8fc7cd1/latest
+        
+        // Solution SIMPLIFIÉE et FIABLE - Utilisation de localStorage partagé via un service
+        // Nous allons utiliser un service de compteur dédié et fiable: counterapi.dev
+        
+        const COUNTER_ID = 'dbj-elroi-livre';
+        
+        // Fonction pour récupérer le compteur
         async function fetchCounter() {
             try {
-                const url = `https://api.countapi.xyz/get/${NAMESPACE}/${BOOK_KEY}`;
-                const response = await fetch(url);
+                // Utilisation de l'API counterapi.dev (plus fiable)
+                const response = await fetch(`https://api.counterapi.dev/v1/${COUNTER_ID}/get`);
                 const data = await response.json();
-                const count = data.value || 0;
-                document.getElementById('count-elroi').innerText = count;
-                return count;
+                if (data && data.count !== undefined) {
+                    const count = data.count;
+                    document.getElementById('count-elroi').innerText = count;
+                    return count;
+                } else {
+                    throw new Error('Format de réponse invalide');
+                }
             } catch (error) {
-                console.error('Erreur fetch counter:', error);
-                let fallback = localStorage.getItem('fallback_elroi');
-                if(!fallback) fallback = 0;
+                console.warn('CounterAPI error, fallback to localStorage:', error);
+                // Fallback: utiliser localStorage si l'API est inaccessible
+                let fallback = localStorage.getItem('dbj_counter_fallback');
+                if (fallback === null) {
+                    fallback = 0;
+                    localStorage.setItem('dbj_counter_fallback', fallback);
+                } else {
+                    fallback = parseInt(fallback);
+                }
                 document.getElementById('count-elroi').innerText = fallback;
                 return fallback;
             }
         }
         
-        // Incrémenter le compteur via l'API
+        // Fonction pour incrémenter le compteur
         async function incrementCounter() {
             try {
-                const url = `https://api.countapi.xyz/update/${NAMESPACE}/${BOOK_KEY}?amount=1`;
-                const response = await fetch(url);
+                const response = await fetch(`https://api.counterapi.dev/v1/${COUNTER_ID}/up`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
                 const data = await response.json();
-                const newCount = data.value;
-                document.getElementById('count-elroi').innerText = newCount;
-                return newCount;
+                if (data && data.count !== undefined) {
+                    const newCount = data.count;
+                    document.getElementById('count-elroi').innerText = newCount;
+                    return newCount;
+                } else {
+                    throw new Error('Erreur incrémentation');
+                }
             } catch (error) {
-                console.error('Erreur increment counter:', error);
-                let fallback = parseInt(localStorage.getItem('fallback_elroi') || '0');
+                console.warn('CounterAPI increment error, using fallback:', error);
+                // Fallback localStorage
+                let fallback = parseInt(localStorage.getItem('dbj_counter_fallback') || '0');
                 fallback++;
-                localStorage.setItem('fallback_elroi', fallback);
+                localStorage.setItem('dbj_counter_fallback', fallback);
                 document.getElementById('count-elroi').innerText = fallback;
                 return fallback;
             }
         }
         
-        // Initialiser le compteur au chargement de la page
+        // Initialiser le compteur au chargement
         fetchCounter();
         
-        // Ajouter l'écouteur pour le clic de téléchargement
-        const downloadBtn = document.querySelector('.download-btn');
-        if(downloadBtn) {
+        // Écouteur de téléchargement
+        const downloadBtn = document.getElementById('downloadBtn');
+        if (downloadBtn) {
             downloadBtn.addEventListener('click', async function(e) {
+                // Incrémenter le compteur
                 await incrementCounter();
+                // Le lien s'ouvre normalement grâce à target="_blank"
             });
         }
         
