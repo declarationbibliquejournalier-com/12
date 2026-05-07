@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Déclaration Biblique Journalière - Vaincre la Dépression</title>
+    <title>Déclaration Biblique Journalière - El-Roï, le Dieu qui me voit</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -334,21 +334,17 @@
             background: var(--gray-light);
         }
         
-        .books-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 60px;
-        }
-        
-        .book-item {
+        .book-single {
+            max-width: 1000px;
+            margin: 0 auto;
             background: var(--white);
             border-radius: 40px;
-            padding: 40px;
+            padding: 50px;
             box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
         }
         
-        .book-item:hover {
+        .book-single:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
         }
@@ -363,11 +359,11 @@
         .book-image {
             flex: 1;
             text-align: center;
-            min-width: 200px;
+            min-width: 220px;
         }
 
         .book-image img {
-            max-width: 260px;
+            max-width: 280px;
             width: 100%;
             border-radius: 32px;
             box-shadow: var(--shadow-lg);
@@ -385,7 +381,7 @@
         }
 
         .book-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-family: 'Playfair Display', serif;
             margin-bottom: 10px;
             color: var(--navy);
@@ -463,6 +459,9 @@
             border-radius: 40px;
             text-align: center;
             border: 1px dashed var(--gold);
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .testimonials {
@@ -646,6 +645,7 @@
             .hero-title { font-size: 2.5rem; }
             .section-title { font-size: 2rem; }
             .book-title { font-size: 1.8rem; }
+            .book-single { padding: 30px; }
         }
 
         @media (max-width: 768px) {
@@ -686,7 +686,7 @@
             .download-area { justify-content: center; }
             .testimonial-card { padding: 30px 20px; }
             .testimonial-text { font-size: 1rem; }
-            .book-item { padding: 25px; }
+            .book-single { padding: 25px; }
         }
 
         @media (max-width: 480px) {
@@ -761,58 +761,32 @@
 
     <section id="declaration" class="ressource-section section">
         <div class="container">
-            <div class="books-grid">
-                <!-- PREMIER LIVRE -->
-                <div class="book-item" id="book1">
-                    <div class="book-flex">
-                        <div class="book-image">
-                            <img src="assets/images/live.jpeg" alt="Vaincre la Dépression - Méphibosheth" onerror="this.src='https://placehold.co/350x450?text=VAINCRE+LA+DEPRESSION'">
-                        </div>
-                        <div class="book-content">
-                            <h2 class="book-title">VAINCRE LA DÉPRESSION</h2>
-                            <div class="book-subtitle">De Lodebar au Palais du Roi • L'histoire de Méphibosheth</div>
-                            <div class="book-description">
-                                <p><strong>2 Samuel 4:4 | 2 Samuel 9:1-13 | Job 20:15</strong> — À travers l’histoire de Méphibosheth, passez de Lodebar (lieu du vide) au palais du Roi. 7 clés pratiques, prières de restitution, et déclarations prophétiques.</p>
-                                <p>Méphibosheth, boiteux et isolé, pensait tout avoir perdu… mais David le chercha à cause de l’alliance. Aujourd’hui, Dieu te cherche à cause du sang de Jésus.</p>
-                            </div>
-                            <div class="download-area">
-                                <a href="doc/Vaincre.pdf" class="btn btn-outline download-btn" data-book="vaincre" target="_blank"><i class="fas fa-download"></i> Télécharger gratuit</a>
-                                <div class="download-counter" id="counter-vaincre">
-                                    <i class="fas fa-cloud-download-alt"></i>
-                                    <span id="count-vaincre">0</span> téléchargements
-                                </div>
-                            </div>
-                        </div>
+            <div class="book-single">
+                <div class="book-flex">
+                    <div class="book-image">
+                        <img src="assets/images/live1.png" alt="El-Roï - Le Dieu qui me voit" onerror="this.src='https://placehold.co/350x450?text=EL-ROI+-+LE+DIEU+QUI+ME+VOIT'">
                     </div>
-                </div>
-                
-                <!-- SECOND LIVRE (la suite - deuxième version) basé sur l'histoire d'Agar -->
-                <div class="book-item" id="book2">
-                    <div class="book-flex">
-                        <div class="book-image">
-                            <img src="assets/images/live1.png" alt="El-Roï - Le Dieu qui me voit" onerror="this.src='https://placehold.co/350x450?text=EL-ROI+-+LE+DIEU+QUI+ME+VOIT'">
+                    <div class="book-content">
+                        <h2 class="book-title">EL-ROÏ</h2>
+                        <div class="book-subtitle">Le Dieu qui me voit • Briser le silence d'Agar à Beer-Lahaï-Roï</div>
+                        <div class="book-description">
+                            <p><strong>« Elle appela l'Éternel qui lui parlait : Tu es le Dieu qui me voit. » — Genèse 16:13</strong></p>
+                            <p>À travers l'histoire d'Agar, l'esclave égyptienne, ce livre vous guide du désert de Beer-Schéba jusqu'à la source du Dieu vivant qui voit. Découvrez comment El-Roï entend le cri de chaque âme brisée, ouvre les yeux sur le puits caché, et transforme le silence en prière exaucée.</p>
+                            <p>50 déclarations prophétiques puissantes, 7 clés de délivrance, et une révélation profonde du nom d'El-Roï pour toutes celles et ceux qui se sentent invisibles, rejetés ou abandonnés.</p>
+                            <p><strong>À propos de l'auteur :</strong> Eugène GODONOU, prédicateur de la Parole et fondateur du Mouvement Déclaration Biblique Journalière, basé au Bénin. Passionné par l'étude approfondie des Écritures et par l'accompagnement des âmes souffrantes, il exerce un ministère ancré dans la compassion biblique, la prière intercessive et la proclamation prophétique.</p>
                         </div>
-                        <div class="book-content">
-                            <h2 class="book-title">EL-ROÏ</h2>
-                            <div class="book-subtitle">Le Dieu qui me voit • Briser le silence d'Agar à Beer-Lahaï-Roï</div>
-                            <div class="book-description">
-                                <p><strong>« Elle appela l'Éternel qui lui parlait : Tu es le Dieu qui me voit. » — Genèse 16:13</strong></p>
-                                <p>Cette seconde édition inspirée de l'histoire d'Agar, l'esclave égyptienne, vous guide du désert de Beer-Schéba jusqu'à la source du Dieu vivant qui voit. Découvrez comment El-Roï entend le cri de chaque âme brisée, ouvre les yeux sur le puits caché, et transforme le silence en prière exaucée.</p>
-                                <p>50 déclarations prophétiques puissantes, 7 clés de délivrance, et une révélation profonde du nom d'El-Roï pour toutes celles et ceux qui se sentent invisibles, rejetés ou abandonnés.</p>
-                            </div>
-                            <div class="download-area">
-                                <a href="doc/Vaincre2.pdf" class="btn btn-outline download-btn" data-book="elroi" target="_blank"><i class="fas fa-download"></i> Télécharger la suite</a>
-                                <div class="download-counter" id="counter-elroi">
-                                    <i class="fas fa-cloud-download-alt"></i>
-                                    <span id="count-elroi">0</span> téléchargements
-                                </div>
+                        <div class="download-area">
+                            <a href="doc/Vaincre2.pdf" class="btn btn-outline download-btn" data-book="elroi" target="_blank"><i class="fas fa-download"></i> Télécharger le livre gratuit</a>
+                            <div class="download-counter" id="counter-elroi">
+                                <i class="fas fa-cloud-download-alt"></i>
+                                <span id="count-elroi">0</span> téléchargements
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="partner-box" style="margin-top: 30px;">
+            <div class="partner-box">
                 <i class="fas fa-handshake" style="font-size: 2rem; color: var(--gold); margin-bottom: 10px; display: block;"></i>
                 <h3 style="font-size: 1.4rem; color: var(--navy);">Devenir Partenaire</h3>
                 <p style="margin: 12px 0; font-size: 0.95rem;">Rejoignez le cercle des visionnaires qui soutiennent la libération des âmes. Ensemble, brisons le silence et implantons des communautés de restauration.</p>
@@ -831,7 +805,7 @@
                 <div class="testimonial-track" id="testimonialTrack">
                     <div class="testimonial-card"><i class="fas fa-quote-left" style="font-size: 2rem; color: var(--gold); opacity: 0.6; margin-bottom: 15px;"></i><p class="testimonial-text">"À travers cette page ma vie de prière qui n’existait presque plus le désir de prier et méditer la flamme à été ré allumée par la grâce de Dieu que Dieu vous bénis abondamment."</p><p class="testimonial-author">— Soeur Dorine</p></div>
                     <div class="testimonial-card"><i class="fas fa-quote-left" style="font-size: 2rem; color: var(--gold); opacity: 0.6; margin-bottom: 15px;"></i><p class="testimonial-text">"Très édifiant ça nous donne envie de prier chaque jour... Vivement que le seigneur nous entende aux travers des différents thèmes abordés...Gloire à Dieu."</p><p class="testimonial-author">— Frère Archille</p></div>
-                    <div class="testimonial-card"><i class="fas fa-quote-left" style="font-size: 2rem; color: var(--gold); opacity: 0.6; margin-bottom: 15px;"></i><p class="testimonial-text">"La prière de déclaration de DBJ a complètement transformé ma vie : j’ai ressenti comme si Dieu m’enlevait un ancien vêtement pour m’en revêtir un nouveau, et dès cet instant, tout a commencé à changer."</p><p class="testimonial-author">— Soeur Martine</p></div>
+                    <div class="testimonial-card"><i class="fas fa-quote-left" style="font-size: 2rem; color: var(--gold); opacity: 0.6; margin-bottom: 15px;"></i><p class="testimonial-text">"La prière de déclaration de DBJ a complètement transformé ma vie : j’ai ressenti comme si Dieu m’enlevait un ancien vêtement pour m’en revêtir un nouveau, et dès cet instant, tout a commencé à changer. Depuis ce jour, je marche dans la grâce et la faveur."</p><p class="testimonial-author">— Soeur Martine</p></div>
                     <div class="testimonial-card"><i class="fas fa-quote-left" style="font-size: 2rem; color: var(--gold); opacity: 0.6; margin-bottom: 15px;"></i><p class="testimonial-text">"À travers le culte d’hier soir et les déclarations de ce matin, j’ai vécu une visitation divine marquée par une transformation profonde de mon esprit."</p><p class="testimonial-author">— Soeur Théofilia</p></div>
                 </div>
                 <div class="slider-buttons"><button class="slider-btn" id="prevSlide"><i class="fas fa-chevron-left"></i></button><button class="slider-btn" id="nextSlide"><i class="fas fa-chevron-right"></i></button></div>
@@ -876,8 +850,7 @@
                 <div class="footer-col">
                     <h3 class="footer-title">Ressources</h3>
                     <ul class="footer-links">
-                        <li><a href="#book1">Vaincre la Dépression</a></li>
-                        <li><a href="#book2">El-Roï : Le Dieu qui me voit</a></li>
+                        <li><a href="#declaration">El-Roï : Le Dieu qui me voit</a></li>
                         <li><a href="#">Enseignements audio</a></li>
                         <li><a href="#">Témoignages</a></li>
                     </ul>
@@ -925,45 +898,59 @@
             });
         });
         
-        // GESTION DES COMPTEURS DE TÉLÉCHARGEMENTS (localStorage)
-        function initDownloadCounter(bookKey, displayId) {
-            let count = localStorage.getItem(`download_${bookKey}`);
-            if(count === null) {
-                count = 0;
-                localStorage.setItem(`download_${bookKey}`, count);
-            } else {
-                count = parseInt(count, 10);
+        // ==============================================
+        // COMPTEUR GLOBAL avec API countapi.xyz
+        // ==============================================
+        const NAMESPACE = 'dbj';
+        const BOOK_KEY = 'elroi_dieu_qui_voit';
+        
+        // Récupérer et afficher le compteur depuis l'API
+        async function fetchCounter() {
+            try {
+                const url = `https://api.countapi.xyz/get/${NAMESPACE}/${BOOK_KEY}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const count = data.value || 0;
+                document.getElementById('count-elroi').innerText = count;
+                return count;
+            } catch (error) {
+                console.error('Erreur fetch counter:', error);
+                let fallback = localStorage.getItem('fallback_elroi');
+                if(!fallback) fallback = 0;
+                document.getElementById('count-elroi').innerText = fallback;
+                return fallback;
             }
-            const spanElement = document.getElementById(displayId);
-            if(spanElement) spanElement.innerText = count;
-            return count;
         }
         
-        function incrementDownload(bookKey, displayId) {
-            let currentCount = parseInt(localStorage.getItem(`download_${bookKey}`) || '0', 10);
-            currentCount++;
-            localStorage.setItem(`download_${bookKey}`, currentCount);
-            const spanElement = document.getElementById(displayId);
-            if(spanElement) spanElement.innerText = currentCount;
-            return currentCount;
+        // Incrémenter le compteur via l'API
+        async function incrementCounter() {
+            try {
+                const url = `https://api.countapi.xyz/update/${NAMESPACE}/${BOOK_KEY}?amount=1`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const newCount = data.value;
+                document.getElementById('count-elroi').innerText = newCount;
+                return newCount;
+            } catch (error) {
+                console.error('Erreur increment counter:', error);
+                let fallback = parseInt(localStorage.getItem('fallback_elroi') || '0');
+                fallback++;
+                localStorage.setItem('fallback_elroi', fallback);
+                document.getElementById('count-elroi').innerText = fallback;
+                return fallback;
+            }
         }
         
-        // Initialiser les deux compteurs
-        initDownloadCounter('vaincre', 'count-vaincre');
-        initDownloadCounter('elroi', 'count-elroi');
+        // Initialiser le compteur au chargement de la page
+        fetchCounter();
         
-        // Ajouter les écouteurs pour les clics de téléchargement
-        const downloadBtns = document.querySelectorAll('.download-btn');
-        downloadBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const book = this.getAttribute('data-book');
-                if(book === 'vaincre') {
-                    incrementDownload('vaincre', 'count-vaincre');
-                } else if(book === 'elroi') {
-                    incrementDownload('elroi', 'count-elroi');
-                }
+        // Ajouter l'écouteur pour le clic de téléchargement
+        const downloadBtn = document.querySelector('.download-btn');
+        if(downloadBtn) {
+            downloadBtn.addEventListener('click', async function(e) {
+                await incrementCounter();
             });
-        });
+        }
         
         // Slider témoignages
         const track = document.getElementById('testimonialTrack');
@@ -1005,6 +992,12 @@
                 if(target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
         });
+        
+        // Fallback images
+        const logoImg = document.querySelector('.logo-img');
+        if(logoImg && logoImg.complete && logoImg.naturalWidth === 0) logoImg.src = 'https://placehold.co/200x200?text=DBJ';
+        const bookImg = document.querySelector('.book-image img');
+        if(bookImg && bookImg.complete && bookImg.naturalWidth === 0) bookImg.src = 'https://placehold.co/350x450?text=EL-ROI';
     </script>
 </body>
 </html>
