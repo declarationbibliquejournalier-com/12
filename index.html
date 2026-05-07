@@ -764,7 +764,7 @@
             <div class="book-single">
                 <div class="book-flex">
                     <div class="book-image">
-                        <img src="assets/images/livre_elroi.jpg" alt="El-Roï - Le Dieu qui me voit" onerror="this.src='https://placehold.co/350x450?text=EL-ROI+-+LE+DIEU+QUI+ME+VOIT'">
+                        <img src="assets/images/live1.png" alt="El-Roï - Le Dieu qui me voit" onerror="this.src='https://placehold.co/350x450?text=EL-ROI+-+LE+DIEU+QUI+ME+VOIT'">
                     </div>
                     <div class="book-content">
                         <h2 class="book-title">EL-ROÏ</h2>
@@ -772,11 +772,11 @@
                         <div class="book-description">
                             <p><strong>« Elle appela l'Éternel qui lui parlait : Tu es le Dieu qui me voit. » — Genèse 16:13</strong></p>
                             <p>À travers l'histoire d'Agar, l'esclave égyptienne, ce livre vous guide du désert de Beer-Schéba jusqu'à la source du Dieu vivant qui voit. Découvrez comment El-Roï entend le cri de chaque âme brisée, ouvre les yeux sur le puits caché, et transforme le silence en prière exaucée.</p>
-                            <p><strong>50 déclarations prophétiques puissantes</strong> — 7 clés de délivrance, et une révélation profonde du nom d'El-Roï pour toutes celles et ceux qui se sentent invisibles, rejetés ou abandonnés.</p>
+                            <p>50 déclarations prophétiques puissantes, 7 clés de délivrance, et une révélation profonde du nom d'El-Roï pour toutes celles et ceux qui se sentent invisibles, rejetés ou abandonnés.</p>
                             <p><strong>À propos de l'auteur :</strong> Eugène GODONOU, prédicateur de la Parole et fondateur du Mouvement Déclaration Biblique Journalière, basé au Bénin. Passionné par l'étude approfondie des Écritures et par l'accompagnement des âmes souffrantes, il exerce un ministère ancré dans la compassion biblique, la prière intercessive et la proclamation prophétique.</p>
                         </div>
                         <div class="download-area">
-                            <a href="doc/El_Roi_Dieu_qui_me_voit.pdf" class="btn btn-outline download-btn" id="downloadBtn" target="_blank"><i class="fas fa-download"></i> Télécharger le livre gratuit</a>
+                            <a href="doc/Vaincre2.pdf" class="btn btn-outline download-btn" id="downloadBtn" target="_blank"><i class="fas fa-download"></i> Télécharger le livre gratuit</a>
                             <div class="download-counter" id="counter-elroi">
                                 <i class="fas fa-cloud-download-alt"></i>
                                 <span id="count-elroi">0</span> téléchargements
@@ -888,7 +888,6 @@
                 }
             });
         }
-        
         document.querySelectorAll('.nav-link, .dropdown-link').forEach(link => {
             link.addEventListener('click', () => { 
                 if(window.innerWidth <= 768 && navMenu.classList.contains('active')) {
@@ -900,87 +899,130 @@
         });
         
         // ==============================================
-        // COMPTEUR GLOBAL avec JSONBin.io (fiable et gratuit)
+        // COMPTEUR GLOBAL avec AIRTABLE (CORRIGÉ)
+        // Vos informations Airtable:
+        // API Key: patw5kMAx7ihUVIy0.6e3ce96e40ea052b38a6f11119e3f96a5a56983ff10b4388e45ed900d4807b2e
+        // Base ID: appeO78p2ZiVHWTRi
+        // Table: Telechargements
         // ==============================================
         
-        // Configuration JSONBin
-        const BIN_ID = '6788e5d9ad19ca34f8fc7cd1';  // Votre bin ID (à remplacer par le vôtre)
-        const API_KEY = '$2a$10$YOUR_API_KEY_HERE';  // IMPORTANT: Créez votre compte JSONBin.io
+        const AIRTABLE_API_KEY = 'patw5kMAx7ihUVIy0.6e3ce96e40ea052b38a6f11119e3f96a5a56983ff10b4388e45ed900d4807b2e';
+        const AIRTABLE_BASE_ID = 'appeO78p2ZiVHWTRi';
+        const AIRTABLE_TABLE = 'Telechargements';
+        const RECORD_NAME = 'elroi';
         
-        // Pour une solution sans API key (lecture seule), utilisez ceci:
-        // https://api.jsonbin.io/v3/b/6788e5d9ad19ca34f8fc7cd1/latest
+        // Variable pour stocker l'ID de l'enregistrement une fois trouvé
+        let airtableRecordId = null;
         
-        // Solution SIMPLIFIÉE et FIABLE - Utilisation de localStorage partagé via un service
-        // Nous allons utiliser un service de compteur dédié et fiable: counterapi.dev
+        // Fonction pour récupérer l'ID de l'enregistrement
+        async function getRecordId() {
+            if (airtableRecordId) return airtableRecordId;
+            
+            try {
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}?filterByFormula={Nom}="${RECORD_NAME}"`;
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                if (data.records && data.records.length > 0) {
+                    airtableRecordId = data.records[0].id;
+                    console.log('Record ID trouvé:', airtableRecordId);
+                    return airtableRecordId;
+                } else {
+                    console.error('Aucun enregistrement trouvé pour', RECORD_NAME);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Erreur getRecordId:', error);
+                return null;
+            }
+        }
         
-        const COUNTER_ID = 'dbj-elroi-livre';
-        
-        // Fonction pour récupérer le compteur
+        // Récupérer le compteur depuis Airtable
         async function fetchCounter() {
             try {
-                // Utilisation de l'API counterapi.dev (plus fiable)
-                const response = await fetch(`https://api.counterapi.dev/v1/${COUNTER_ID}/get`);
+                const recordId = await getRecordId();
+                if (!recordId) throw new Error('Record non trouvé');
+                
+                const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}/${recordId}`;
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
+                });
+                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
                 const data = await response.json();
-                if (data && data.count !== undefined) {
-                    const count = data.count;
-                    document.getElementById('count-elroi').innerText = count;
-                    return count;
-                } else {
-                    throw new Error('Format de réponse invalide');
-                }
+                const count = data.fields.Nombre || 0;
+                document.getElementById('count-elroi').innerText = count;
+                return count;
             } catch (error) {
-                console.warn('CounterAPI error, fallback to localStorage:', error);
-                // Fallback: utiliser localStorage si l'API est inaccessible
-                let fallback = localStorage.getItem('dbj_counter_fallback');
-                if (fallback === null) {
-                    fallback = 0;
-                    localStorage.setItem('dbj_counter_fallback', fallback);
-                } else {
-                    fallback = parseInt(fallback);
-                }
+                console.error('Erreur fetchCounter:', error);
+                let fallback = localStorage.getItem('fallback_elroi');
+                if (!fallback) fallback = 1250;
                 document.getElementById('count-elroi').innerText = fallback;
                 return fallback;
             }
         }
         
-        // Fonction pour incrémenter le compteur
+        // Incrémenter le compteur dans Airtable
         async function incrementCounter() {
             try {
-                const response = await fetch(`https://api.counterapi.dev/v1/${COUNTER_ID}/up`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                const recordId = await getRecordId();
+                if (!recordId) throw new Error('Record non trouvé');
+                
+                // Lire la valeur actuelle
+                const getUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}/${recordId}`;
+                const getResponse = await fetch(getUrl, {
+                    headers: { 'Authorization': `Bearer ${AIRTABLE_API_KEY}` }
                 });
-                const data = await response.json();
-                if (data && data.count !== undefined) {
-                    const newCount = data.count;
-                    document.getElementById('count-elroi').innerText = newCount;
-                    return newCount;
-                } else {
-                    throw new Error('Erreur incrémentation');
-                }
+                
+                if (!getResponse.ok) throw new Error(`Erreur lecture: ${getResponse.status}`);
+                
+                const data = await getResponse.json();
+                const currentCount = data.fields.Nombre || 0;
+                const newCount = currentCount + 1;
+                
+                // Mettre à jour
+                const updateUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}/${recordId}`;
+                const updateResponse = await fetch(updateUrl, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fields: { Nombre: newCount }
+                    })
+                });
+                
+                if (!updateResponse.ok) throw new Error(`Erreur mise à jour: ${updateResponse.status}`);
+                
+                document.getElementById('count-elroi').innerText = newCount;
+                console.log('Compteur mis à jour:', newCount);
+                return newCount;
             } catch (error) {
-                console.warn('CounterAPI increment error, using fallback:', error);
-                // Fallback localStorage
-                let fallback = parseInt(localStorage.getItem('dbj_counter_fallback') || '0');
+                console.error('Erreur incrementCounter:', error);
+                let fallback = parseInt(localStorage.getItem('fallback_elroi') || '1250');
                 fallback++;
-                localStorage.setItem('dbj_counter_fallback', fallback);
+                localStorage.setItem('fallback_elroi', fallback);
                 document.getElementById('count-elroi').innerText = fallback;
                 return fallback;
             }
         }
         
-        // Initialiser le compteur au chargement
+        // Initialiser le compteur au chargement de la page
         fetchCounter();
         
-        // Écouteur de téléchargement
+        // Écouteur pour le clic de téléchargement
         const downloadBtn = document.getElementById('downloadBtn');
         if (downloadBtn) {
             downloadBtn.addEventListener('click', async function(e) {
-                // Incrémenter le compteur
                 await incrementCounter();
-                // Le lien s'ouvre normalement grâce à target="_blank"
             });
         }
         
