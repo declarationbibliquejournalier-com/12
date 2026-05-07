@@ -185,7 +185,7 @@
                             <a href="doc/Vaincre2.pdf" class="btn btn-outline" id="downloadBtn" target="_blank"><i class="fas fa-download"></i> Télécharger le livre gratuit</a>
                             <div class="download-counter">
                                 <i class="fas fa-cloud-download-alt"></i>
-                                <span id="countDisplay">0</span> téléchargements
+                                <span id="countDisplay">…</span> téléchargements
                             </div>
                         </div>
                     </div>
@@ -258,16 +258,16 @@
     </footer>
 
     <script>
-        // Menu mobile
+        // ── Menu mobile ──────────────────────────────────────────
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
-        if(menuToggle) {
+        if (menuToggle) {
             menuToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
                 navMenu.classList.toggle('active');
                 const icon = menuToggle.querySelector('i');
-                if(icon) {
-                    if(navMenu.classList.contains('active')) {
+                if (icon) {
+                    if (navMenu.classList.contains('active')) {
                         icon.classList.remove('fa-bars');
                         icon.classList.add('fa-times');
                     } else {
@@ -277,89 +277,97 @@
                 }
             });
         }
-        
-        // ==============================================
-        // COMPTEUR GLOBAL SIMPLE ET FIABLE
-        // Utilise un service externe dédié : api.countapi.xyz
-        // ==============================================
-        
-        const NAMESPACE = 'dbj_elroi';
-        const KEY = 'downloads';
-        
+
+        // ── COMPTEUR GLOBAL — counterapi.dev ─────────────────────
+        // Ce service est gratuit, sans inscription et sans serveur.
+        // Tous les visiteurs (peu importe le navigateur ou l'appareil)
+        // voient le même chiffre, stocké sur les serveurs de counterapi.dev.
+        // ─────────────────────────────────────────────────────────
+
+        const COUNTER_NAMESPACE = 'dbj-elroi-2024';   // ← identifiant unique de votre compteur (ne jamais changer)
+        const COUNTER_KEY       = 'downloads';
+        const COUNTER_BASE_URL  = `https://api.counterapi.dev/v1/${COUNTER_NAMESPACE}/${COUNTER_KEY}`;
+
+        // Lit la valeur actuelle sans l'incrémenter
         async function getCount() {
             try {
-                const response = await fetch(`https://api.countapi.xyz/get/${NAMESPACE}/${KEY}`);
-                const data = await response.json();
-                return data.value || 0;
-            } catch(e) {
-                console.log('Erreur lecture, utilisation localStorage');
+                const res  = await fetch(COUNTER_BASE_URL);
+                const data = await res.json();
+                return data.count ?? 0;
+            } catch (e) {
+                // Si le réseau est indisponible, on affiche la sauvegarde locale
                 return parseInt(localStorage.getItem('dbj_count') || '0');
             }
         }
-        
-        async function updateCount() {
+
+        // Incrémente de +1 et retourne la nouvelle valeur
+        async function incrementCount() {
             try {
-                const response = await fetch(`https://api.countapi.xyz/update/${NAMESPACE}/${KEY}?amount=1`);
-                const data = await response.json();
-                return data.value;
-            } catch(e) {
-                console.log('Erreur mise à jour, utilisation localStorage');
-                let newCount = parseInt(localStorage.getItem('dbj_count') || '0') + 1;
+                const res  = await fetch(`${COUNTER_BASE_URL}/up`);
+                const data = await res.json();
+                // Mise à jour du cache local pour cohérence hors-ligne
+                localStorage.setItem('dbj_count', data.count);
+                return data.count;
+            } catch (e) {
+                // Fallback local si pas de réseau
+                const newCount = parseInt(localStorage.getItem('dbj_count') || '0') + 1;
                 localStorage.setItem('dbj_count', newCount);
                 return newCount;
             }
         }
-        
+
+        // Affiche le compteur au chargement de la page
         async function displayCount() {
-            let count = await getCount();
+            const count = await getCount();
             document.getElementById('countDisplay').innerText = count;
         }
-        
+
         displayCount();
-        
-        document.getElementById('downloadBtn').addEventListener('click', async function() {
-            let newCount = await updateCount();
+
+        // Incrémente et met à jour l'affichage au clic sur "Télécharger"
+        document.getElementById('downloadBtn').addEventListener('click', async function () {
+            const newCount = await incrementCount();
             document.getElementById('countDisplay').innerText = newCount;
         });
-        
-        // Slider témoignages
-        const track = document.getElementById('testimonialTrack');
-        const slides = Array.from(document.querySelectorAll('.testimonial-card'));
-        const prevBtn = document.getElementById('prevSlide');
-        const nextBtn = document.getElementById('nextSlide');
+
+        // ── Slider témoignages ───────────────────────────────────
+        const track        = document.getElementById('testimonialTrack');
+        const slides       = Array.from(document.querySelectorAll('.testimonial-card'));
+        const prevBtn      = document.getElementById('prevSlide');
+        const nextBtn      = document.getElementById('nextSlide');
         const dotsContainer = document.getElementById('dotsContainer');
         let currentIndex = 0;
-        let totalSlides = slides.length;
+        let totalSlides  = slides.length;
         let autoInterval;
-        
-        function updateSlider() { if(track) track.style.transform = `translateX(-${currentIndex * 100}%)`; updateDots(); }
-        function updateDots() { document.querySelectorAll('.dot').forEach((dot, idx) => { idx === currentIndex ? dot.classList.add('active') : dot.classList.remove('active'); }); }
-        function goToSlide(index) { if(index < 0) index = totalSlides - 1; if(index >= totalSlides) index = 0; currentIndex = index; updateSlider(); resetAutoSlide(); }
-        function nextSlide() { goToSlide(currentIndex + 1); }
-        function prevSlide() { goToSlide(currentIndex - 1); }
-        function resetAutoSlide() { if(autoInterval) clearInterval(autoInterval); autoInterval = setInterval(() => { nextSlide(); }, 5500); }
-        
-        if(prevBtn) prevBtn.addEventListener('click', prevSlide);
-        if(nextBtn) nextBtn.addEventListener('click', nextSlide);
-        if(dotsContainer && totalSlides) {
+
+        function updateSlider()  { if (track) track.style.transform = `translateX(-${currentIndex * 100}%)`; updateDots(); }
+        function updateDots()    { document.querySelectorAll('.dot').forEach((dot, idx) => { idx === currentIndex ? dot.classList.add('active') : dot.classList.remove('active'); }); }
+        function goToSlide(idx)  { if (idx < 0) idx = totalSlides - 1; if (idx >= totalSlides) idx = 0; currentIndex = idx; updateSlider(); resetAutoSlide(); }
+        function nextSlide()     { goToSlide(currentIndex + 1); }
+        function prevSlide()     { goToSlide(currentIndex - 1); }
+        function resetAutoSlide(){ if (autoInterval) clearInterval(autoInterval); autoInterval = setInterval(() => { nextSlide(); }, 5500); }
+
+        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        if (dotsContainer && totalSlides) {
             dotsContainer.innerHTML = '';
-            for(let i=0; i<totalSlides; i++) { 
-                let dot = document.createElement('div'); 
-                dot.classList.add('dot'); 
-                if(i===currentIndex) dot.classList.add('active'); 
-                dot.addEventListener('click', () => goToSlide(i)); 
-                dotsContainer.appendChild(dot); 
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === currentIndex) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
             }
         }
         resetAutoSlide();
-        
-        // Smooth scroll
+
+        // ── Smooth scroll ────────────────────────────────────────
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+            anchor.addEventListener('click', function (e) {
                 const hash = this.getAttribute('href');
-                if(hash === "#" || hash === "") return;
+                if (hash === '#' || hash === '') return;
                 const target = document.querySelector(hash);
-                if(target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+                if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
         });
     </script>
